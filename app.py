@@ -1,29 +1,36 @@
+# app.py — Versión básica sin Google Sheets
+
 import streamlit as st
-import json
-import gspread
-from google.oauth2.service_account import Credentials
+import pandas as pd
+import datetime as dt
 
-st.title("🔐 Test de conexión con Google Sheets")
+# =========================
+# Datos de prueba (para no depender de Sheets)
+# =========================
+def load_data():
+    # DataFrame vacío con las columnas que usamos
+    return pd.DataFrame(columns=[
+        "FechaISO","HoraLocal","Ticker","Side","Entrada",
+        "Prob_1m","Prob_5m","Prob_15m","Prob_1h","ProbFinal",
+        "Estado","Resultado","Nota","Mercado"
+    ])
 
-try:
-    # Leer credenciales como JSON desde secrets
-    creds_json = st.secrets["GOOGLE_SHEETS_CREDENTIALS"]
-    creds_dict = json.loads(creds_json)
+# =========================
+# Streamlit UI
+# =========================
+st.set_page_config(page_title="Panel de Señales", layout="wide")
 
-    # Crear credenciales
-    creds = Credentials.from_service_account_info(
-        creds_dict,
-        scopes=["https://www.googleapis.com/auth/spreadsheets"]
-    )
+# Hora actual
+hora_actual = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+st.markdown("### ⏰ Hora local: " + hora_actual)
 
-    # Conectar con Google Sheets
-    client = gspread.authorize(creds)
-    sheet = client.open_by_key(st.secrets["SPREADSHEET_ID"])
-    worksheet = sheet.sheet1
-    values = worksheet.get_all_values()
+# Título y estado del bot
+st.title("🤖 Bot 2025")
+st.success("😊 Bot Activo – corriendo en modo básico (sin Google Sheets)")
 
-    st.success("✅ Conectado correctamente a Google Sheets")
-    st.write("Primera fila:", values[0] if values else "Hoja vacía")
+# Cargar datos (de prueba por ahora)
+df = load_data()
 
-except Exception as e:
-    st.error(f"❌ Error conectando a Google Sheets: {e}")
+# Pestañas
+tabs = st.tabs([
+    "
