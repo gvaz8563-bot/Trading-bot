@@ -1,9 +1,5 @@
-streamlit==1.28.0
-gspread==6.0.0
-google-auth==2.25.2
-google-auth-oauthlib==1.2.0
-oauth2client==4.1.3
-pandas==2.2.1
-requests==2.32.3
-yfinance==0.2.40
-beautifulsoup4==4.12.3
+# Core
+streamlit==1.37.0
+
+# Otros (solo lo necesario para la demo básica)
+pytz==2024.1
